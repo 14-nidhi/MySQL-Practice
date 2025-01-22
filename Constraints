@@ -1,0 +1,35 @@
+create database constraints;
+create table person(
+personID int not null,
+Firstname varchar(45) not  null,
+Lastname varchar(34),
+Email varchar(23) unique,
+Age int check (age>=18)
+);
+insert into person(PersonID,Firstname,Lastname,Email,Age) 
+values(23,'Ram','kapoor','vbfkv23@example',23),(22,'Varsha','Gurjar','vgu2@example.com',45);
+select * from person;
+
+create table departments(
+Departmentid int primary key,
+Departmentname varchar(45)
+);
+insert into departments(Departmentid,Departmentname)
+values(23,'IT'),(45,'CS');
+desc departments;
+select * from departments;
+
+create table employees(
+EmployeeId int primary key,
+Firstname varchar(89),
+Lastname varchar(67),
+Departmentid int ,
+Foreign key (Departmentid) REFERENCES departments (Departmentid));
+insert into employees(EmployeeId, Firstname, Lastname,Departmentid)
+values(6, 'Samira', 'Saxena',11), (8, 'Riya', 'kumari',12);
+desc employees;
+ select * from employees;
+
+select department.departmentname,EmployeeId,Firstname,Lastname
+from department
+inner join employee on department.Departmentid = employee.Departmentid;
