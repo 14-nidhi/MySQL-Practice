@@ -1,0 +1,58 @@
+create database ACIDproperties;
+CREATE TABLE Accounts (
+    AccountID INT PRIMARY KEY,
+    AccountHolder VARCHAR(100),
+    Balance DECIMAL(10, 2)
+);
+INSERT INTO Accounts (AccountID, AccountHolder, Balance) VALUES
+(1, 'Nidhika', 1000.00),
+(2, 'Anjne', 500.00);
+DELIMITER //
+CREATE PROCEDURE UpdateAccountBalance()
+BEGIN
+    DECLARE account_balance DECIMAL(10, 2);
+    -- Step 1: Get the balance for AccountID 1
+    SELECT Balance INTO account_balance FROM Accounts WHERE AccountID = 1;
+     -- Step 2: Check if the balance is less than 0
+    IF account_balance < 0 THEN
+        -- If not sufficient, rollback
+        ROLLBACK;
+    ELSE
+        -- Step 3: Add ₹200 to Hira's account (AccountID 2)
+        UPDATE Accounts SET Balance = Balance + 200 WHERE AccountID = 2;
+        -- Step 4: Commit the transaction
+        COMMIT;
+    END IF;
+END //
+DELIMITER ;
+-- Call this stored procedure 
+START TRANSACTION;
+CALL UpdateAccountBalance();
+SELECT * FROM Accounts;
+
+-- ERROR HANDLING EXAMPLE
+DELIMITER //
+CREATE PROCEDURE TransferFunds()
+BEGIN
+    DECLARE balance DECIMAL(10, 2);
+    START TRANSACTION;
+    -- Attempt to subtract ₹1200 from Nidhika's account
+    UPDATE Accounts SET Balance = Balance - 1200 WHERE AccountID = 1;
+    -- Get the current balance
+    SELECT Balance INTO balance FROM Accounts WHERE AccountID = 1;
+    -- Check if the balance is sufficient
+    IF balance < 0 THEN
+        ROLLBACK; -- If not sufficient, rollback
+    ELSE
+        -- Add ₹1200 to Anjne's account
+        UPDATE Accounts SET Balance = Balance + 1200 WHERE AccountID = 2;
+        COMMIT; -- Commit the transaction
+    END IF;
+END //
+DELIMITER ;
+-- All this stored procedure
+CALL TransferFunds();
+
+-- SQL INJECTION
+SELECT * FROM Accounts WHERE username = '$username' AND password = '$password';
+SELECT * FROM Accounts WHERE username = '' OR '1'='1' AND password = '';
