@@ -1,0 +1,52 @@
+create database Functions;
+create table student(
+Adharname varchar(23),
+Enrollment varchar(34),
+College varchar(39),
+Branch varchar(67) 
+);
+insert into student(Adharname, Enrollment, College, Branch) values('Sneha',324673, 'OIST','IT'), ('Rashmika', 56456,'OCT','CS'),
+('Nandini',76567,'OCM','EC');
+select * from student;
+
+-- String FUNCTIONS
+select length(college) from student;
+select upper(adharname) from student;
+select lower(adharname) from student;
+select substring(college,3) from student;
+select trim(adharname) from student;
+select replace ('hello world', 'world', 'sql');
+select left('Adharname', 6);
+select right ('Adharname',3);
+select reverse('branch');
+select ascii('A');
+-- Numeric functions
+select abs(-5);
+select round (5.122,1);
+select ceil(4.55);
+select floor(33.489);
+select power(3,6);
+select mod(10,4);
+select sqrt(34);
+-- DATE AND TIME FUNCTIONS
+select now();
+select curdate();
+select current_time();
+select date_add('2024-11-15', interval 14 day);
+select datediff('2024-11-15', '2024-11-10');
+select extract(year from '2023-11-15');
+-- Aggregate Functions
+select count(*) from student;
+select SUM(enrollment) from student;
+select avg(enrollment) from student;
+select min(enrollment) from student;
+select max(enrollment) from student;
+-- User-Defined Functions (UDF)
+select concat(adharname,'',branch) as fullname from student;
+-- delimiter
+DELIMITER //
+CREATE FUNCTION GetFullName(FirstName VARCHAR(50), LastName VARCHAR(50))
+RETURNS VARCHAR(100)
+BEGIN
+    RETURN CONCAT(FirstName, ' ', LastName);
+END //
