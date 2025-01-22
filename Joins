@@ -1,0 +1,25 @@
+create database joins;
+create table Customers(
+Customer_Id int primary key,
+Customer_name varchar(23) not null
+);
+insert into Customers(Customer_Id, Customer_name) 
+values(1,'radha'),
+(2, 'Amisha'),
+(4, 'Siya');
+select * from Customers;
+
+create table Orders(
+Order_Id int primary key,
+Customer_Id int,
+Order_date date,
+Foreign key (Customer_Id) REFERENCES Customers(Customer_Id)
+);
+INSERT INTO Orders(Order_Id,Customer_Id,Order_date)
+VALUES(13, 6, '2024-11-01'),
+(12, 8, '2024-12-02');
+select * from Orders;
+
+select Customers.customer_name,Order_Id,Order_date
+from Customers
+inner join Orders on Customers.Customer_Id = Orders.Customer_Id;
