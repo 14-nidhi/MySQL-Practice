@@ -1,0 +1,38 @@
+create database indexes;
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(100),
+    department_id INT,
+    salary DECIMAL(10, 2)
+);
+INSERT INTO employees (employee_id, employee_name, department_id, salary)
+VALUES
+(1, 'John Doe', 1, 60000),
+(2, 'Jane Smith', 2, 70000),
+(3, 'Alice Johnson', 1, 80000),
+(4, 'Bob Brown', 3, 55000);
+CREATE INDEX idx_employee_name ON employees (employee_name);
+SELECT * FROM employees WHERE employee_name = 'Alice Johnson';
+
+-- create the view
+CREATE VIEW employee_salaries AS
+SELECT employee_name, salary
+FROM employees;
+SELECT * FROM employee_salaries;
+-- create the view and filter
+CREATE VIEW high_salary_employees AS
+SELECT employee_name, salary
+FROM employees
+WHERE salary > 60000;
+SELECT * FROM high_salary_employees;
+-- Create an Updatable View
+CREATE VIEW employee_update_view AS
+SELECT employee_id, employee_name, salary
+FROM employees;
+-- Update a Record Through the View
+UPDATE employee_update_view
+SET salary = 75000
+WHERE employee_name = 'Jane Smith';
+SELECT * FROM employees WHERE employee_name = 'Jane Smith';
+-- Drop the View:
+DROP VIEW high_salary_employees;
