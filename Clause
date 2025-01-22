@@ -1,0 +1,43 @@
+create database clause;
+use clause;
+create table employees(
+EmployeeId int primary key,
+Firstname varchar(23),
+Lastname varchar(56),
+DepartmentId int,
+Salary decimal(10,2),
+HireDate date
+);
+insert into employees(EmployeeId, Firstname, Lastname, DepartmentId, Salary, HireDate)
+values(1, 'John', 'Doe', 10, 50000.00, '2023-01-15'),
+(2, 'Jane', 'Smith', 20, 60000.00, '2022-05-20'),
+(3, 'Sam', 'Brown', 10, 55000.00, '2021-03-22'),
+(4, 'Emily', 'Davis', 30, 45000.00, '2020-11-10'),
+(5, 'Michael', 'Johnson', 20, 70000.00, '2019-09-12'),
+(6, 'Chris', 'Lee', 30, 48000.00, '2022-02-18'),
+(7, 'Sarah', 'Wilson', 10, 51000.00, '2021-12-05');
+select * from employees;
+-- select clause
+select Firstname,Lastname from employees;
+-- where clause
+select * from employees where DepartmentId = 10;
+-- order by clause
+select * from employees order by Lastname ASC;
+-- Group by clause
+select DepartmentId, count(*)  as employeecount from employees group by DepartmentId; 
+-- Having clause
+select DepartmentId, count(*) as employeecount from employees group by DepartmentId having count(*) >1;
+-- join clause
+SELECT e.FirstName, e.LastName, d.DepartmentName FROM Employees e JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+-- union clause
+SELECT FirstName, LastName FROM employees UNION SELECT FirstName, LastName FROM employees;
+-- intersect clause
+SELECT FirstName FROM employees intersect; select DepartmentId FROM employees;
+-- except clause
+-- SELECT FirstName, LastName FROM employees except SELECT FirstName, LastName FROM employees;
+-- Limit clause
+SELECT * FROM Employees LIMIT 3;
+-- offset clause
+SELECT * FROM Employees LIMIT 2 OFFSET 2;
+-- Distinct clause
+SELECT DISTINCT DepartmentID FROM Employees;
